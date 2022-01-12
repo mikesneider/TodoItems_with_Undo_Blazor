@@ -1,0 +1,55 @@
+﻿@page "/"
+@inject  TodoState State
+
+<style>
+    .milista {
+        padding-top: 20px;
+    }
+</style>
+
+<h1>Todo list</h1>
+
+<EditForm Model="newTodo" OnValidSubmit="addTodo">
+    <div class="form-group">
+        <input palceholder="something todo"  @bind="newTodo.Tittle" />
+        <ValidationMessage For="@( ()=> newTodo.Tittle)"/>
+    </div>
+    
+    <button type="submit" class="btn btn-primary"  >Add</button>
+    <button type="button" 
+            class="btn btn-danger" 
+            disabled="@State.CanClear"
+            @onclick="@State.ClearTodos"
+            >
+        Clear Finished
+    </button>
+    <button type="button" 
+            class="btn btn-dark" 
+            @onclick="@State.Undo"
+            disabled="@(!State.CantUndo)"
+            >
+        Undos
+    </button>
+
+</EditForm>
+<ul class="list-group milista">
+    @foreach (var todo in State.Current)
+    {
+        <li class="list-group-item">
+            <input type="checkbox" @bind="todo.IsDone" />
+            <span>
+                @todo.Tittle
+            </span>
+        </li>
+    }
+</ul>
+@code {
+    TodoItem newTodo = new();
+    
+    public void addTodo()
+    {
+        State.addTodo(newTodo);
+        newTodo = new();
+    }
+    
+}
