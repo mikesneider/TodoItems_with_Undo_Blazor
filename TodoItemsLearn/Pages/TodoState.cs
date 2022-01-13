@@ -23,7 +23,7 @@ namespace TodoItemsLearn
 
         public void ClearTodos()
         {
-            //push
+            //push buffer
             TodoBuffer.Push(Current.Where(i => !i.IsDone));
             //todoItems = todoItems.Where(i => !i.IsDone).ToList();
         }
